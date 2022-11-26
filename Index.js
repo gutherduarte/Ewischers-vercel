@@ -1,35 +1,37 @@
-const express = require('express')
-require('./DB/dbConeccionMongo')
+const express = require("express");
+require("./DB/dbConeccionMongo");
 
-const bodyParser = require('body-parser')
-const cors = require('cors')
+const bodyParser = require("body-parser");
+const cors = require("cors");
 
-const routes = require('./routes')
+const routes = require("./routes");
 
-const app = express()
+const app = express();
 
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use(cors())
+app.use(cors());
 
-app.use('/', routes())
+app.use("/", routes());
 
 app.use((error, request, response, next) => {
-  console.error(error.name)
+  console.error(error.name);
   switch (error.name) {
-    case 'CastError':
-      response.status(400).send({ error: 'id mal formado' })
-      break
-    case 'ReferenceError':
-      response.status(500).send({ error: 'Error interno' })
-      break
+    case "CastError":
+      response.status(400).send({ error: "id mal formado" });
+      break;
+    case "ReferenceError":
+      response.status(500).send({ error: "Error interno" });
+      break;
     default:
-      response.status(500).end()
-      break
+      response.status(500).end();
+      break;
   }
-})
+});
 
 app.listen(process.env.PORT || 3001, function () {
-    console.log(`Server de Portafolio levantado en Port:${process.env.PORT}`)
-  })
+  console.log(`Server de Portafolio levantado en Port:${process.env.PORT}`);
+});
+
+module.exports = app;
